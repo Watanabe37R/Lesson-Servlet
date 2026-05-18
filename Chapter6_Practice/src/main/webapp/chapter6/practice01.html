@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="practice01" method="post">
+		<p>行き先：
+		<input type="text" name="destination"></p>
+		<p>日数：
+		<input type="number" name="days" min="1" max="30"></p>
+		<p>交通手段：
+		<select name="transport">
+			<option value="飛行機">飛行機</option>
+			<option value="新幹線">新幹線</option>
+			<option value="車">車</option>
+		</select></p>
+		<!--キャンペーンコード-->
+		<input type="hidden" name="campaign" value="spring2025" >
+		<input type="submit" value="予約する">
+	</form>
+</body>
+</html>
