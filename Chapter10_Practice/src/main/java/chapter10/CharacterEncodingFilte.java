@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpFilter;
  * Servlet Filter implementation class CharSetFilter
  */
 //@WebFilter("/CharSetFilter")
-public class CharSetFilter extends HttpFilter implements Filter {
+public class CharacterEncodingFilte extends HttpFilter implements Filter {
 
 	/**
 	 * @see Filter#destroy()
