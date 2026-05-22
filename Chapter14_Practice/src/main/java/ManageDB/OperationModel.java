@@ -20,15 +20,15 @@ public class OperationModel {
 			PreparedStatement st = con
 					.prepareStatement("INSERT INTO purchase(quantity, payment, review, mail) VALUES (?, ?, ?, ?)");
 
-	        st.setInt(1, quantity);
-	        st.setString(2, payment);
-	        st.setString(3, review);
-	        st.setBoolean(4, mail);
-	        
-	        st.executeUpdate();
-	        
-	        st.close();
-	        con.close();
+			st.setInt(1, quantity);
+			st.setString(2, payment);
+			st.setString(3, review);
+			st.setBoolean(4, mail);
+
+			st.executeUpdate();
+
+			st.close();
+			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,5 +68,49 @@ public class OperationModel {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public static boolean findOrder(String order) {
+		//ArrayList<Product> list = new ArrayList<>();
+		boolean existence = false;
+		try {
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/book");
+			Connection con = ds.getConnection();
+
+			PreparedStatement st = con.prepareStatement("SELECT * FROM product WHERE name = ?");
+			st.setString(1, order);
+			ResultSet rs = st.executeQuery();
+
+			existence = rs.next();
+
+			rs.close();
+			st.close();
+			con.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return existence;
+	}
+
+	public static void UpdateDB(String name, int price) {
+		try {
+			InitialContext ic = new InitialContext();
+			DataSource ds = (DataSource) ic.lookup("java:/comp/env/jdbc/book");
+			Connection con = ds.getConnection();
+
+			PreparedStatement st = con.prepareStatement("UPDATE product SET price = ? WHERE name = ?");
+
+			st.setInt(1, price);
+			st.setString(2, name);
+
+			st.executeUpdate();
+
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
