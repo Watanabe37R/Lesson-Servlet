@@ -42,25 +42,25 @@ public class EmployeeServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String action = request.getParameter("action");
-		int id = Integer.parseInt(request.getParameter("id"));
+		Employee emp =new Employee();
+		
 		if ("edit".equals(action)) {
 			//更新画面へ
-			request.setAttribute("id",id); 
+			emp.setId(Integer.parseInt(request.getParameter("id")));
+			emp.setName(request.getParameter("name"));
+			request.setAttribute("emp",emp); 
 			
 			request.getRequestDispatcher("edit.jsp").forward(request, response);
-		}else if("update".equals(action)) {
-			//更新実行
-			
-			response.sendRedirect(request.getContextPath()+"/practicea01/employee");
 		} else if ("delete".equals(action)) {
 			//削除画面へ
-			request.setAttribute("id",id); 
+			emp.setId(Integer.parseInt(request.getParameter("id")));
+			emp.setName(request.getParameter("name"));
+			request.setAttribute("emp",emp); 
 			
-			request.getRequestDispatcher("edit.jsp").forward(request, response);
-		}else if("deleteConfirm".equals(action)){
-			//削除実行
-			
-			response.sendRedirect(request.getContextPath()+"/practicea01/employee");
+			request.getRequestDispatcher("delete.jsp").forward(request, response);
+		}else if("insert".equals(action)){
+			//登録画面へ
+			request.getRequestDispatcher("insert.jsp").forward(request, response);
 		}
 
 	}

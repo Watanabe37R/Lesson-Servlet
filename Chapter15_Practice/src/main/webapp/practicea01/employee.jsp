@@ -6,11 +6,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>社員一覧</title>
 </head>
 <body>
 	<h1>社員一覧</h1>
-	<a href="" 
+	<form action="employee" method="post" style="display: inline;">
+		<input type="hidden" name="action" value="insert">
+		<input type="submit" value="新規登録">
+	</form>
 	<table border="1">
 		<tr>
 			<th>ID</th>
@@ -29,11 +32,13 @@
 			<td><form action="employee" method="post" style="display: inline;">
 					<input type="hidden" name="action" value="edit">
 					<input type="hidden" name="id" value="<%=employee.getId()%>">
+					<input type="hidden" name="name" value="<%=employee.getName()%>">
 					<input type="submit" value="更新">
 				</form></td>
 			<td><form action="employee" method="post" style="display: inline;">
 					<input type="hidden" name="action" value="delete">
 					<input type="hidden" name="id" value="<%=employee.getId()%>">
+					<input type="hidden" name="name" value="<%=employee.getName()%>">
 					<input type="submit" value="削除">
 				</form></td>
 		</tr>
