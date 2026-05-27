@@ -14,7 +14,7 @@ public class TweetDAO extends DAO {
 	public List<Tweet> getAllTweets() throws Exception {
 		List<Tweet> tweets = new ArrayList<>();
 		Connection con = getConnection();
-		String sql = "SELECT id, content, posted_at, author FROM tweets ORDER BY posted_at DESC";
+		String sql = "SELECT id, content, posted_at, author, deleteflug FROM tweets WHERE deleteflug=0 ORDER BY posted_at DESC";
 		PreparedStatement st = con.prepareStatement(sql);
 		ResultSet rs = st.executeQuery();
 		while (rs.next()) {
@@ -22,7 +22,9 @@ public class TweetDAO extends DAO {
 			String content = rs.getString("content");
 			String postedAt = rs.getString("posted_at");
 			String author = rs.getString("author");
-			Tweet tweet = new Tweet(id, content, postedAt, author);
+			//削除フラグを追加
+			int deleteflug = rs.getInt("deleteflug");
+			Tweet tweet = new Tweet(id, content, postedAt, author, deleteflug);
 			tweets.add(tweet);
 		}
 
@@ -34,15 +36,27 @@ public class TweetDAO extends DAO {
 	//ツイートを新規投稿するメソッド
 	public void addTweet(String content, String author) throws Exception {
 		Connection con = getConnection();
-		String sql = "INSERT INTO tweets (content, author) VALUES (?, ?)";
+		String sql = "INSERT INTO tweets (content, author, deleteflug) VALUES (?, ?, ?)";
 		PreparedStatement st = con.prepareStatement(sql);
 		st.setString(1, content);
 		st.setString(2, author);
+		//削除フラグを追加。追加時は必ず0
+		st.setInt(3, 0);
 		st.executeUpdate();
-
+		
 		st.close();
 		con.close();
-
 	}
 
+	//ツイートを論理削除するメソッド
+	public void deleteTweet(int id) throws Exception {
+		Connection con = getConnection();
+		String sql = "UPDATE tweets set deleteflug=1 WHERE id=?";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setInt(1, id);
+		st.executeUpdate();
+		
+		st.close();
+		con.close();
+	}
 }

@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import jp.co.aforce.beans.Tweet;
 import jp.co.aforce.dao.TweetDAO;
 
@@ -26,6 +27,22 @@ public class TweetListServlet extends HttpServlet {
 		}
 		request.getRequestDispatcher("tweet_list.jsp").forward(request, response);
 	}
-
+	
+	//エラーメッセージ表示のため
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		TweetDAO tweetDAO = new TweetDAO();
+		try {
+			List<Tweet> tweets = tweetDAO.getAllTweets();
+			request.setAttribute("tweets", tweets);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String message=(String) request.getAttribute("message");
+		System.out.println(message);
+		request.setAttribute("message", message);
+		request.getRequestDispatcher("tweet_list.jsp").forward(request, response);
+	}
 
 }

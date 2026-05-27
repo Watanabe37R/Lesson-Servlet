@@ -9,15 +9,19 @@ public class Tweet implements Serializable {
 	private String content;
 	private String postedAt;
 	private String author;
+	//削除フラグを追加
+	private int deleteflug;
 
 	public Tweet() {
 	}
-
-	public Tweet(int id, String content, String postedAt, String author) {
+	
+	//削除フラグを追加
+	public Tweet(int id, String content, String postedAt, String author, int deleteflug) {
 		this.id = id;
 		this.content = content;
 		this.postedAt = postedAt;
 		this.author = author;
+		this.deleteflug = deleteflug;
 	}
 
 	public int getId() {
@@ -50,5 +54,14 @@ public class Tweet implements Serializable {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+	
+	//削除フラグを追加
+	public int getDeleteflug() {
+		return deleteflug;
+	}
+
+	public void setDeleteflug(int deleteflug) {
+		this.deleteflug = deleteflug;
 	}
 }

@@ -10,25 +10,23 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import jp.co.aforce.dao.TweetDAO;
 
-@WebServlet("/new_tweet")
-public class NewTweetServlet extends HttpServlet {
+@WebServlet("/tweet-delete-complete")
+public class DeleteTweetServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		//コメントとユーザー名を取得
-		String content = request.getParameter("content");
-		String author = request.getParameter("author");
-		
+		int id = Integer.parseInt(request.getParameter("id"));
 		TweetDAO tweetDAO = new TweetDAO();
 		try {
-			tweetDAO.addTweet(content, author);
+			tweetDAO.deleteTweet(id);
 			//成功なら何事もなくリダイレクト
 			response.sendRedirect("tweet_list");
 		} catch (Exception e) {
 			e.printStackTrace();
 			//エラー(例外)ならエラーを表示
-			request.setAttribute("message", "エラーが発生し、ツイート投稿ができませんでした。");
+			request.setAttribute("message", "エラーが発生し、ツイート削除ができませんでした。");
 			request.getRequestDispatcher("/tweet_list").forward(request, response);
 		}
 		
